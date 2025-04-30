@@ -6,14 +6,13 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:10:31 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/23 13:10:38 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:36:38 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <limits.h>
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -63,16 +62,6 @@ enum
 	TAKE_FORK = 5,
 	WAIT_FORK = 6
 };
-
-// typedef enum e_action
-// {
-//     PHILO_EAT = 0,
-//     PHILO_SLEEP,
-//     PHILO_THINK,
-//     PHILO_DIE,
-//     PHILO_TAKE_FORK,
-//     PHILO_WAIT
-// }	t_action;
 
 # define GREEN "\033[0;32m"
 # define BLUE "\033[0;36m"

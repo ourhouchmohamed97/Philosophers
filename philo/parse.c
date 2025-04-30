@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:12:26 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/30 10:46:00 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:59:34 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ int		parse(int argc, char **argv, t_data *data)
 	if (argc == 6)
 	{
 		data->mealsToConsume = strict_atoi(argv[5], &err);
-		if (!data->mealsToConsume)
-			return (1);
+		if (data->mealsToConsume == 0)
+			err = 1;
 	}
 	else
 		data->mealsToConsume = 0;
