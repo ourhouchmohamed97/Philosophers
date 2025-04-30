@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:13:28 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/23 13:13:38 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:18:01 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ void	synch_start(long long start_time)
 {
 	while (get_time() < start_time)
 	{
-		continue ;
+		usleep(100);
 	}
 }

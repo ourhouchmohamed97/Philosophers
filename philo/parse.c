@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:12:26 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/23 13:12:38 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:46:00 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ void    manage_forks(t_philo *philo, size_t i)
 	}
 	else
 	{
-		philo->right_fork = &philo->data->forks[i];
-		philo->left_fork = &philo->data->forks[(i + 1)
+		philo->right_fork = &philo->data->forks[(i + 1)
 			% philo->data->numPhilos];
+		philo->left_fork = &philo->data->forks[i];
 	}
 }
 
@@ -99,28 +99,28 @@ int		init_philo(t_data *data)
 
 int		parse(int argc, char **argv, t_data *data)
 {
-	int	error;
+	int	err;
 
-	error = 0;
+	err = 0;
 	if (!(argc == 5 || argc == 6))
 		return (1);
-	data->numPhilos = strict_atoi(argv[1], &error);
-	data->dieTime = strict_atoi(argv[2], &error);
-	data->eatTime = strict_atoi(argv[3], &error);
-	data->sleepTime = strict_atoi(argv[4], &error);
+	data->numPhilos = strict_atoi(argv[1], &err);
+	data->dieTime = strict_atoi(argv[2], &err);
+	data->eatTime = strict_atoi(argv[3], &err);
+	data->sleepTime = strict_atoi(argv[4], &err);
 	data->dead = 0;
 	if (argc == 6)
 	{
-		data->mealsToConsume = strict_atoi(argv[5], &error);
+		data->mealsToConsume = strict_atoi(argv[5], &err);
 		if (!data->mealsToConsume)
 			return (1);
 	}
 	else
 		data->mealsToConsume = 0;
-	if (error)
+	if (err)
 		return (1);
-	error = init_philo(data);
+	err = init_philo(data);
 	if (init_mutex(data))
 		return (cleanup_philo(data), 1);
-	return (error);
+	return (err);
 }
