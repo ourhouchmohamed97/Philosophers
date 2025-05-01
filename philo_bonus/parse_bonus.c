@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parce_bonus.c                                      :+:      :+:    :+:   */
+/*   parse_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:45:51 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/30 16:05:07 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:48:37 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,31 @@ long	strict_atoi(const char *str, int *err)
 	return (res);
 }
 
+int	init_semaphore(t_data *data)
+{
+	unlink_my_sem();
+	data->sem_forks = sem_open("/forks", O_CREAT, S_IRUSR | S_IWUSR,
+			data->num_philos);
+	if (data->sem_forks == SEM_FAILED)
+		return (INIT_ERR);
+	data->sem_log = sem_open("/log", O_CREAT, S_IRUSR | S_IWUSR, 1);
+	if (data->sem_log == SEM_FAILED)
+		return (INIT_ERR);
+	data->sem_eat_full = sem_open("/eat_full", O_CREAT, S_IRUSR | S_IWUSR,
+			data->num_philos);
+	if (data->sem_eat_full == SEM_FAILED)
+		return (INIT_ERR);
+	data->sem_end = sem_open("/end", O_CREAT, S_IRUSR | S_IWUSR,
+			data->num_philos);
+	if (data->sem_end == SEM_FAILED)
+		return (INIT_ERR);
+	data->sem_set_end = sem_open("/set_end", O_CREAT, S_IRUSR | S_IWUSR, 1);
+	if (data->sem_set_end == SEM_FAILED)
+		return (INIT_ERR);
+	unlink_my_sem();
+	return (0);
+}
+
 int	parse(int argc, char **argv, t_data *data)
 {
 	int	error;
@@ -45,16 +70,16 @@ int	parse(int argc, char **argv, t_data *data)
 	error = 0;
 	if (!(argc == 5 || argc == 6))
 		return (INIT_ERR);
-	data->numPhilos = strict_atoi(argv[1], &error);
-	data->dieTime = strict_atoi(argv[2], &error);
-	data->eatTime = strict_atoi(argv[3], &error);
-	data->sleepTime = strict_atoi(argv[4], &error);
+	data->num_philos = strict_atoi(argv[1], &error);
+	data->die_time = strict_atoi(argv[2], &error);
+	data->eat_time = strict_atoi(argv[3], &error);
+	data->sleep_time = strict_atoi(argv[4], &error);
 	data->end = 0;
-	data->mealsToConsume = 0;
+	data->meals_to_consume = 0;
 	if (argc == 6)
 	{
-		data->mealsToConsume = strict_atoi(argv[5], &error);
-		if (data->mealsToConsume == 0)
+		data->meals_to_consume = strict_atoi(argv[5], &error);
+		if (data->meals_to_consume == 0)
 			error = 1;
 	}
 	if (error)
@@ -77,7 +102,8 @@ int	init_process_philo(t_philo *philo, size_t i, t_data *data)
 		return (INIT_ERR);
 	sem_unlink(sem_name_1);
 	sem_unlink(sem_name_2);
-	philo->sem_meals_eaten = sem_open(sem_name_1, O_CREAT, S_IRUSR | S_IWUSR, 1);
+	philo->sem_meals_eaten = sem_open(sem_name_1, O_CREAT, S_IRUSR 
+			| S_IWUSR, 1);
 	if (philo->sem_meals_eaten == SEM_FAILED)
 		return (INIT_ERR);
 	philo->sem_last_meal = sem_open(sem_name_2, O_CREAT, S_IRUSR | S_IWUSR, 1);

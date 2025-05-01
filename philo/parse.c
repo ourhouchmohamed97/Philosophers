@@ -6,12 +6,11 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:12:26 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/30 12:59:34 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:51:02 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 long	strict_atoi(const char *str, int *err)
 {
@@ -39,7 +38,7 @@ long	strict_atoi(const char *str, int *err)
 	return (res);
 }
 
-int		init_mutex(t_data *data)
+int	init_mutex(t_data *data)
 {
 	if (pthread_mutex_init(&data->m_log, NULL))
 		return (1);
@@ -52,18 +51,18 @@ int		init_mutex(t_data *data)
 	return (0);
 }
 
-void    manage_forks(t_philo *philo, size_t i)
+void	manage_forks(t_philo *philo, size_t i)
 {
 	if (philo->id % 2)
 	{
 		philo->left_fork = &philo->data->forks[i];
 		philo->right_fork = &philo->data->forks[(i + 1)
-			% philo->data->numPhilos];
+			% philo->data->num_philos];
 	}
 	else
 	{
 		philo->right_fork = &philo->data->forks[(i + 1)
-			% philo->data->numPhilos];
+			% philo->data->num_philos];
 		philo->left_fork = &philo->data->forks[i];
 	}
 }
@@ -74,17 +73,17 @@ void    manage_forks(t_philo *philo, size_t i)
  * init the log mutex pointeur to each philo
  * assign all other relevant information
  */
-int		init_philo(t_data *data)
+int	init_philo(t_data *data)
 {
 	size_t	i;
 
-	data->philos = malloc(data->numPhilos * sizeof(t_philo));
-	data->forks = malloc(data->numPhilos * sizeof(pthread_mutex_t));
+	data->philos = malloc(data->num_philos * sizeof(t_philo));
+	data->forks = malloc(data->num_philos * sizeof(pthread_mutex_t));
 	if (!data->philos || !data->forks)
 		return (1);
 	i = 0;
-	memset(data->philos, 0, data->numPhilos * sizeof(t_philo));
-	while (i < data->numPhilos)
+	memset(data->philos, 0, data->num_philos * sizeof(t_philo));
+	while (i < data->num_philos)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL))
 			return (1);
@@ -97,26 +96,26 @@ int		init_philo(t_data *data)
 	return (0);
 }
 
-int		parse(int argc, char **argv, t_data *data)
+int	parse(int argc, char **argv, t_data *data)
 {
 	int	err;
 
 	err = 0;
 	if (!(argc == 5 || argc == 6))
 		return (1);
-	data->numPhilos = strict_atoi(argv[1], &err);
-	data->dieTime = strict_atoi(argv[2], &err);
-	data->eatTime = strict_atoi(argv[3], &err);
-	data->sleepTime = strict_atoi(argv[4], &err);
+	data->num_philos = strict_atoi(argv[1], &err);
+	data->die_time = strict_atoi(argv[2], &err);
+	data->eat_time = strict_atoi(argv[3], &err);
+	data->sleep_time = strict_atoi(argv[4], &err);
 	data->dead = 0;
 	if (argc == 6)
 	{
-		data->mealsToConsume = strict_atoi(argv[5], &err);
-		if (data->mealsToConsume == 0)
+		data->meals_to_consume = strict_atoi(argv[5], &err);
+		if (data->meals_to_consume == 0)
 			err = 1;
 	}
 	else
-		data->mealsToConsume = 0;
+		data->meals_to_consume = 0;
 	if (err)
 		return (1);
 	err = init_philo(data);

@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:13:59 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/28 09:51:17 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:48:23 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->data->m_last_meal);
 	philo->last_meal = get_time();
 	pthread_mutex_unlock(&philo->data->m_last_meal);
-	waiting(philo->data->eatTime, philo->data);
+	waiting(philo->data->eat_time, philo->data);
 	if (!end_sim(philo->data))
 	{
 		pthread_mutex_lock(&philo->data->m_meals_eaten);
@@ -47,13 +47,13 @@ void	rest(t_philo *philo)
 	if (end_sim(philo->data))
 		return ;
 	action_msg(philo, SLEEP);
-	waiting(philo->data->sleepTime, philo->data);
+	waiting(philo->data->sleep_time, philo->data);
 }
 
 /**
  * time to think =
  *
- * 	=> 0 if: dieTime - (time_since_last_meal + eatTime) <= 0
+ * 	=> 0 if: die_time - (time_since_last_meal + eat_time) <= 0
  * 	=> 200 if > 600 ms to think
  */
 void	think(t_philo *philo)
@@ -64,8 +64,8 @@ void	think(t_philo *philo)
 	if (end_sim(philo->data))
 		return ;
 	pthread_mutex_lock(&philo->data->m_last_meal);
-	time_to_think = (philo->data->dieTime);
-	temp = ((get_time() - philo->last_meal) + philo->data->eatTime);
+	time_to_think = (philo->data->die_time);
+	temp = ((get_time() - philo->last_meal) + philo->data->eat_time);
 	pthread_mutex_unlock(&philo->data->m_last_meal);
 	if (temp >= time_to_think)
 		time_to_think = 0;
@@ -86,7 +86,7 @@ void	*solo_philo(t_philo *philo)
 	pthread_mutex_lock(philo->left_fork);
 	action_msg(philo, TAKE_FORK);
 	pthread_mutex_unlock(philo->left_fork);
-	waiting(philo->data->dieTime, philo->data);
+	waiting(philo->data->die_time, philo->data);
 	return (NULL);
 }
 
@@ -106,10 +106,10 @@ void	*philo_routine(void *philo_ptr)
 	philo->last_meal = philo->data->dinner_start_time;
 	pthread_mutex_unlock(&philo->data->m_last_meal);
 	synch_start(philo->data->dinner_start_time);
-	if (philo->data->numPhilos == 1)
+	if (philo->data->num_philos == 1)
 		return (solo_philo(philo));
 	if (philo->id % 2)
-		waiting(philo->data->eatTime / 2, philo->data);
+		waiting(philo->data->eat_time / 2, philo->data);
 	while (!end_sim(philo->data))
 	{
 		eat(philo);

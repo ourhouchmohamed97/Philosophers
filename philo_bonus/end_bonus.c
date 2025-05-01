@@ -6,17 +6,15 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:12:19 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/30 16:37:49 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:43:14 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.c"
+#include "philo_bonus.h"
 
 void	action_msg(t_philo *philo, int code)
 {
 	sem_wait(philo->data->sem_log);
-	if (end_sim(philo->data) && code != DIE)
-		code = -1;
 	if (code == EAT)
 		printf("%s%09lld %zu is eating%s\n", GREEN, get_time()
 			- philo->data->dinner_start_time, philo->id, NC);
@@ -42,4 +40,13 @@ void	synch_start(long long start_time)
 {
 	while (get_time() < start_time)
 		usleep(100);
+}
+
+void	unlink_my_sem(void)
+{
+	sem_unlink("/set_end");
+	sem_unlink("/forks");
+	sem_unlink("/log");
+	sem_unlink("/eat_full");
+	sem_unlink("/end");
 }

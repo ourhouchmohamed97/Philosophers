@@ -6,14 +6,13 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:13:02 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/23 13:13:14 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:52:08 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-void    waiting(long long waitTime, t_data *data)
+void	waiting(long long waitTime, t_data *data)
 {
 	long long	time;
 

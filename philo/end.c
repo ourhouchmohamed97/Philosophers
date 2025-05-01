@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:13:28 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/30 16:36:25 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:59:16 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ void	action_msg(t_philo *philo, int code)
 
 int	end_sim(t_data *data)
 {
-	int	result;
+	int	bool_dead;
 
-	result = 0;
+	bool_dead = 0;
 	pthread_mutex_lock(&data->m_dead);
-	result = data->dead;
+	bool_dead = data->dead;
 	pthread_mutex_unlock(&data->m_dead);
-	return (result);
+	return (bool_dead);
 }
 
 void	set_end_sim(t_data *data)

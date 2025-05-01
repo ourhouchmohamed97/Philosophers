@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:14:16 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/30 16:18:02 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:48:37 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * check if a philo is dead
- * => time_since_last_meal >= dieTime
+ * => time_since_last_meal >= die_time
  */
 int	has_philosopher_died(t_philo *philo)
 {
@@ -23,7 +23,7 @@ int	has_philosopher_died(t_philo *philo)
 	sem_wait(philo->sem_last_meal);
 	t_since_last_meal = get_time() - philo->last_meal;
 	sem_post(philo->sem_last_meal);
-	return (t_since_last_meal > philo->data->dieTime);
+	return (t_since_last_meal > philo->data->die_time);
 }
 
 /**
@@ -34,19 +34,19 @@ int	eat_enough(t_philo *philo)
 	int	ate_enough;
 
 	ate_enough = 1;
-	if (philo->data->mealsToConsume)
+	if (philo->data->meals_to_consume)
 	{
 		sem_wait(philo->sem_meals_eaten);
-		if (philo->meals_eaten < philo->data->mealsToConsume)
+		if (philo->meals_eaten < philo->data->meals_to_consume)
 			ate_enough = 0;
 		sem_post(philo->sem_meals_eaten);
 	}
-	return (philo->data->mealsToConsume && ate_enough);
+	return (philo->data->meals_to_consume && ate_enough);
 }
 
 /**
  * check every 0.1ms if the philo is dead or if every philo has eaten enough
- * use the mutex last meal, and dieTime to know
+ * use the mutex last meal, and die_time to know
  * increment sem_eat_full if philo has eat enough
  */
 void	*life_monitor(void *philo_ptr)

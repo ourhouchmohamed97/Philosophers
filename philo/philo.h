@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:10:31 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/30 16:36:38 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:53:33 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ struct					s_data
 	pthread_mutex_t		m_meals_eaten;
 	pthread_mutex_t		m_log;
 	pthread_mutex_t		m_last_meal;
-	size_t				numPhilos;
-	size_t				dieTime;
-	size_t				eatTime;
-	size_t				sleepTime;
-	size_t				mealsToConsume;
+	size_t				num_philos;
+	size_t				die_time;
+	size_t				eat_time;
+	size_t				sleep_time;
+	size_t				meals_to_consume;
 	size_t				dinner_start_time;
 	int					dead;
 };
@@ -71,49 +71,46 @@ enum
 # define FLASH "\033[1;93m"
 # define NC "\033[0m"
 
-
 # define ARG_ERR 22
 # define SIM_ERR 23
 
 // ================ functions ================
 
 // --------------- parse.c ---------------
-int		parse(int argc, char **argv, t_data *data);
-long	strict_atoi(const char *str, int *err);
-int		init_philo(t_data *data);
-int		init_mutex(t_data *data);
-void    manage_forks(t_philo *philo, size_t i);
+int			parse(int argc, char **argv, t_data *data);
+long		strict_atoi(const char *str, int *err);
+int			init_philo(t_data *data);
+int			init_mutex(t_data *data);
+void		manage_forks(t_philo *philo, size_t i);
 
 // --------------- exit.c ---------------
-void	cleanup_philo(t_data *data);
-void	clean_up(t_data *data);
-int		err_handler(int type);
+void		cleanup_philo(t_data *data);
+void		clean_up(t_data *data);
+int			err_handler(int type);
 
 // --------------- time.c ---------------
 long long	get_time(void);
-void    waiting(long long waitTime, t_data *data);
+void		waiting(long long waitTime, t_data *data);
 
 // --------------- philo.c ---------------
-int		run_simulation(t_data *data);
+int			run_simulation(t_data *data);
 
 // --------------- philo_routine.c ---------------
-void	*philo_routine(void *philo_ptr);
-void	*solo_philo(t_philo *philo);
-void	eat(t_philo *philo);
-void	rest(t_philo *philo);
-void	think(t_philo *philo);
+void		*philo_routine(void *philo_ptr);
+void		*solo_philo(t_philo *philo);
+void		eat(t_philo *philo);
+void		rest(t_philo *philo);
+void		think(t_philo *philo);
 
 // --------------- end.c ---------------
-void	synch_start(long long start_time);
-int		end_sim(t_data *data);
-void	set_end_sim(t_data *data);
-void	action_msg(t_philo *philo, int code);
+void		synch_start(long long start_time);
+int			end_sim(t_data *data);
+void		set_end_sim(t_data *data);
+void		action_msg(t_philo *philo, int code);
 
 // --------------- life.c ---------------
-int		has_philosopher_died(t_philo *philo);
-int		sim_over(t_data *data);
-void	*life_monitor(void	*data_ptr);
-
-
+int			has_philosopher_died(t_philo *philo);
+int			sim_over(t_data *data);
+void		*life_monitor(void	*data_ptr);
 
 #endif

@@ -6,16 +6,15 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:11:31 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/23 13:11:42 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:50:11 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
 /**hilo_bonus
  * check if a philo is dead
- * => time_since_last_meal > dieTime
+ * => time_since_last_meal > die_time
  */
 int	has_philosopher_died(t_philo *philo)
 {
@@ -24,7 +23,7 @@ int	has_philosopher_died(t_philo *philo)
 	pthread_mutex_lock(&philo->data->m_last_meal);
 	t_since_last_meal = get_time() - philo->last_meal;
 	pthread_mutex_unlock(&philo->data->m_last_meal);
-	if (t_since_last_meal >= philo->data->dieTime)
+	if (t_since_last_meal >= philo->data->die_time)
 	{
 		set_end_sim(philo->data);
 		usleep(1000);
@@ -45,20 +44,20 @@ int	sim_over(t_data *data)
 
 	ate_enough = 1;
 	i = 0;
-	while (i < data->numPhilos)
+	while (i < data->num_philos)
 	{
 		if (has_philosopher_died(&data->philos[i]))
 			return (1);
-		if (data->mealsToConsume)
+		if (data->meals_to_consume)
 		{
 			pthread_mutex_lock(&data->m_meals_eaten);
-			if (data->philos[i].meals_eaten < data->mealsToConsume)
+			if (data->philos[i].meals_eaten < data->meals_to_consume)
 				ate_enough = 0;
 			pthread_mutex_unlock(&data->m_meals_eaten);
 		}
 		i++;
 	}
-	if (data->mealsToConsume && ate_enough)
+	if (data->meals_to_consume && ate_enough)
 		return (set_end_sim(data), 1);
 	else
 		return (0);
@@ -66,7 +65,7 @@ int	sim_over(t_data *data)
 
 /**
  * check every 0.1ms if the philo is dead or if every philo has eaten enough
- * use the mutex last meal, and dieTime to know
+ * use the mutex last meal, and die_time to know
  * use
  */
 void	*life_monitor(void *data_ptr)

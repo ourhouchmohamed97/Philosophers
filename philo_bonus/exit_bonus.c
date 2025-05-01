@@ -6,12 +6,11 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:06:04 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/30 15:05:20 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:48:37 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
 
 int	waiting_philo(int i, t_philo **philos)
 {
@@ -38,11 +37,35 @@ int	err_handler(int type)
 {
 	if (type == ARG_ERR)
 		printf("\033[1;31mError, please enter valid arguments.\033[0m\n\n"
-			"  => \033[1;34m./philo <dieTime> <eatTime> <sleepTime>"
-			"[number_of_time_mealsToConsume]\033[0m\n\n");
+			"  => \033[1;34m./philo <die_time> <eat_time> <sleep_time>"
+			"[number_of_time_meals_to_consume]\033[0m\n\n");
 	else if (type == SIM_ERR)
 		printf("\033[1;31mError with simulation !\033[0m\n\n");
 	else if (type == INIT_ERR)
 		printf("\033[1;31mError with memory !\033[0m\n\n");
 	return (EXIT_FAILURE);
+}
+
+/**
+ * kill all the philo by their pid
+ */
+void	kill_all_philo(t_data *data, t_philo **philos)
+{
+	size_t	i;
+	int		status;
+
+	i = 0;
+	while (i < data->num_philos)
+	{
+		sem_close(((*philos) + i)->sem_meals_eaten);
+		sem_close(((*philos) + i)->sem_last_meal);
+		kill(((*philos) + i)->pid_philo, SIGKILL);
+		i++;
+	}
+	i = 0;
+	while (i < data->num_philos)
+	{
+		waitpid(((*philos) + i)->pid_philo, &status, 0);
+		i++;
+	}
 }

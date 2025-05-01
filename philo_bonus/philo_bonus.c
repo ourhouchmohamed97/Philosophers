@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:05:36 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/04/30 16:06:53 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:47:22 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
  * use the philo_routine function
  * (error) ? 1 : 0
  */
-static int	run_simulation(t_philo **philos, t_data *data)
+int	run_simulation(t_philo **philos, t_data *data)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < data->numPhilos)
+	while (i < data->num_philos)
 	{
 		((*philos) + i)->pid_philo = fork();
 		if (((*philos) + i)->pid_philo == -1)
@@ -40,10 +40,10 @@ int	init_philo(t_philo **philos, t_data *data)
 	size_t	i;
 
 	i = 0;
-	*philos = malloc((data->numPhilos) * sizeof(t_philo));
+	*philos = malloc((data->num_philos) * sizeof(t_philo));
 	if (!philos)
 		return (INIT_ERR);
-	while (i < data->numPhilos)
+	while (i < data->num_philos)
 	{
 		if (init_process_philo((*philos) + i, i, data))
 			return (INIT_ERR);
@@ -59,7 +59,7 @@ int	main(int argc, char *argv[])
 
 	if (parse(argc, argv, &data))
 		return (err_handler(ARG_ERR));
-	data.dinner_start_time = get_time() + (data.numPhilos * 42);
+	data.dinner_start_time = get_time() + (data.num_philos * 42);
 	if (init_philo(&philos, &data))
 		return (EXIT_FAILURE);
 	sem_wait(data.sem_log);

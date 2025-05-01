@@ -19,6 +19,8 @@ SRC     = philo_bonus.c \
           routine_bonus.c \
           end_bonus.c \
           life_bonus.c \
+		  process_bonus.c \
+		  utils_bonus.c \
 
 OBJ     = $(SRC:.c=.o)
 
