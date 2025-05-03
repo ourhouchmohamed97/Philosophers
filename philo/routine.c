@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:13:59 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:48:23 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/03 09:40:54 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	eat(t_philo *philo)
 	action_msg(philo, TAKE_FORK);
 	if (end_sim(philo->data))
 	{
-		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
 		return ;
 	}
 	action_msg(philo, EAT);
@@ -59,19 +59,19 @@ void	rest(t_philo *philo)
 void	think(t_philo *philo)
 {
 	long long	time_to_think;
-	long long	temp;
+	long long	to_starvation;
 
 	if (end_sim(philo->data))
 		return ;
 	pthread_mutex_lock(&philo->data->m_last_meal);
 	time_to_think = (philo->data->die_time);
-	temp = ((get_time() - philo->last_meal) + philo->data->eat_time);
+	to_starvation = ((get_time() - philo->last_meal) + philo->data->eat_time);
 	pthread_mutex_unlock(&philo->data->m_last_meal);
-	if (temp >= time_to_think)
+	if (to_starvation >= time_to_think)
 		time_to_think = 0;
 	else
 	{
-		time_to_think -= temp;
+		time_to_think -= to_starvation;
 		time_to_think /= 2;
 		if (time_to_think > 500)
 			time_to_think = 150;
