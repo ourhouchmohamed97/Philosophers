@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:05:36 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:47:22 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/05 09:45:13 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,35 @@ int	init_philo(t_philo **philos, t_data *data)
 			return (INIT_ERR);
 		i++;
 	}
+	return (0);
+}
+
+int	init_process_philo(t_philo *philo, size_t i, t_data *data)
+{
+	char	*sem_name_1;
+	char	*sem_name_2;
+
+	philo->id = i + 1;
+	philo->data = data;
+	philo->meals_eaten = 0;
+	philo->last_meal = data->dinner_start_time;
+	sem_name_1 = get_name_sem(philo->id, "/meals_eaten");
+	sem_name_2 = get_name_sem(philo->id, "/last_meal");
+	if (!sem_name_1 || !sem_name_2)
+		return (INIT_ERR);
+	sem_unlink(sem_name_1);
+	sem_unlink(sem_name_2);
+	philo->sem_meals_eaten = sem_open(sem_name_1, O_CREAT, S_IRUSR 
+			| S_IWUSR, 1);
+	if (philo->sem_meals_eaten == SEM_FAILED)
+		return (INIT_ERR);
+	philo->sem_last_meal = sem_open(sem_name_2, O_CREAT, S_IRUSR | S_IWUSR, 1);
+	if (philo->sem_last_meal == SEM_FAILED)
+		return (INIT_ERR);
+	sem_unlink(sem_name_1);
+	sem_unlink(sem_name_2);
+	free(sem_name_1);
+	free(sem_name_2);
 	return (0);
 }
 

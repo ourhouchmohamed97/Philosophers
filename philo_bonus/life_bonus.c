@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:14:16 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:48:37 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:38:33 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	*life_monitor(void *philo_ptr)
 		{
 			sem_post(philo->data->sem_end);
 			action_msg(philo, DIE);
-			return (NULL);
+			exit(EXIT_FAILURE);
 		}
 		else if (eat_enough(philo))
 		{

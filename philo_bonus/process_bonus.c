@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:13:00 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:48:37 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:41:51 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * the global semaphore end is set to one
  * kill all philo if it's the case.
  */
-void	*check_dead_philo(void *philos_ptr)
+void	*termination(void *philos_ptr)
 {
 	t_philo	**philos;
 	t_data	*data;
@@ -77,7 +77,7 @@ void	stop_simulation(t_data *data, t_philo **philos)
 	pthread_t	thread_death;
 	pthread_t	thread_meal;
 
-	if (pthread_create(&thread_death, NULL, &check_dead_philo, philos))
+	if (pthread_create(&thread_death, NULL, &termination, philos))
 		kill_all_philo(data, philos);
 	if (data->meals_to_consume)
 	{

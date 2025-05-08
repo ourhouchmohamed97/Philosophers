@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:53:07 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:48:01 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:41:51 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdio.h>     // printf
 # include <stdlib.h>    // malloc, free, EXIT_SUCCESS
 # include <string.h>    // semaphore
-# include <sys/stat.h>  // O_CREAT flag sem
+# include <sys/stat.h>  // S_IRUSR | S_IWUSR
 # include <sys/time.h>  // usleep
 # include <sys/types.h> // O_CREAT
 # include <sys/wait.h>  // waitpid
@@ -96,7 +96,7 @@ void		waiting(long long waitTime);
 long long	get_time(void);
 
 // --------------- process_bonus.c ---------------
-void		*check_dead_philo(void *philos_ptr);
+void		*termination(void *philos_ptr);
 int			is_sim_end(t_data *data);
 void		*check_eat_enough(void *philos_ptr);
 void		stop_simulation(t_data *data, t_philo **philos);

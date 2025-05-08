@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:45:51 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:48:37 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/04 12:29:29 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	init_semaphore(t_data *data)
 	data->sem_set_end = sem_open("/set_end", O_CREAT, S_IRUSR | S_IWUSR, 1);
 	if (data->sem_set_end == SEM_FAILED)
 		return (INIT_ERR);
-	unlink_my_sem();
 	return (0);
 }
 
@@ -69,7 +68,7 @@ int	parse(int argc, char **argv, t_data *data)
 
 	error = 0;
 	if (!(argc == 5 || argc == 6))
-		return (INIT_ERR);
+		return (ARG_ERR);
 	data->num_philos = strict_atoi(argv[1], &error);
 	data->die_time = strict_atoi(argv[2], &error);
 	data->eat_time = strict_atoi(argv[3], &error);
@@ -83,35 +82,6 @@ int	parse(int argc, char **argv, t_data *data)
 			error = 1;
 	}
 	if (error)
-		return (INIT_ERR);
+		return (ARG_ERR);
 	return (init_semaphore(data));
-}
-
-int	init_process_philo(t_philo *philo, size_t i, t_data *data)
-{
-	char	*sem_name_1;
-	char	*sem_name_2;
-
-	philo->id = i + 1;
-	philo->data = data;
-	philo->meals_eaten = 0;
-	philo->last_meal = data->dinner_start_time;
-	sem_name_1 = get_name_sem(philo->id, "/meals_eaten");
-	sem_name_2 = get_name_sem(philo->id, "/last_meal");
-	if (!sem_name_1 || !sem_name_2)
-		return (INIT_ERR);
-	sem_unlink(sem_name_1);
-	sem_unlink(sem_name_2);
-	philo->sem_meals_eaten = sem_open(sem_name_1, O_CREAT, S_IRUSR 
-			| S_IWUSR, 1);
-	if (philo->sem_meals_eaten == SEM_FAILED)
-		return (INIT_ERR);
-	philo->sem_last_meal = sem_open(sem_name_2, O_CREAT, S_IRUSR | S_IWUSR, 1);
-	if (philo->sem_last_meal == SEM_FAILED)
-		return (INIT_ERR);
-	sem_unlink(sem_name_1);
-	sem_unlink(sem_name_2);
-	free(sem_name_1);
-	free(sem_name_2);
-	return (0);
 }
