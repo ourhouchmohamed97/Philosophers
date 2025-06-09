@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:53:07 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/08 17:41:51 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/09 12:57:07 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_philo
 struct					s_data
 {
 	sem_t				*sem_forks;
-	sem_t				*sem_log;
+	sem_t				*sem_print;
 	sem_t				*sem_end;
 	sem_t				*sem_eat_full;
 	sem_t				*sem_set_end;
@@ -53,7 +53,7 @@ struct					s_data
 	size_t				dinner_start_time;
 	size_t				eat_time;
 	size_t				sleep_time;
-	size_t				meals_to_consume;
+	size_t				meals2consume;
 	int					end;
 };
 
@@ -77,7 +77,7 @@ enum
 
 # define ARG_ERR 22
 # define SIM_ERR 23
-# define INIT_ERR 24
+# define INIT_ERR -1
 
 // ================ functions bonus ================
 

@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:13:00 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/08 17:41:51 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/09 13:03:35 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ void	*check_eat_enough(void *philos_ptr)
 		else
 			return (NULL);
 	}
+	sem_wait(data->sem_print);
+	printf("%sAll philosophers have eaten enough meals!%s\n", GREEN, NC);
+	sem_post(data->sem_print);
 	sem_post(data->sem_end);
 	return (NULL);
 }
@@ -79,7 +82,7 @@ void	stop_simulation(t_data *data, t_philo **philos)
 
 	if (pthread_create(&thread_death, NULL, &termination, philos))
 		kill_all_philo(data, philos);
-	if (data->meals_to_consume)
+	if (data->meals2consume)
 	{
 		if (pthread_create(&thread_meal, NULL, &check_eat_enough, philos))
 			kill_all_philo(data, philos);

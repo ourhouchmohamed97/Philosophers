@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:14:16 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/06 11:38:33 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:21:55 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	has_philosopher_died(t_philo *philo)
 	sem_wait(philo->sem_last_meal);
 	t_since_last_meal = get_time() - philo->last_meal;
 	sem_post(philo->sem_last_meal);
-	return (t_since_last_meal > philo->data->die_time);
+	return (t_since_last_meal >= philo->data->die_time);
 }
 
 /**
@@ -34,14 +34,14 @@ int	eat_enough(t_philo *philo)
 	int	ate_enough;
 
 	ate_enough = 1;
-	if (philo->data->meals_to_consume)
+	if (philo->data->meals2consume)
 	{
 		sem_wait(philo->sem_meals_eaten);
-		if (philo->meals_eaten < philo->data->meals_to_consume)
+		if (philo->meals_eaten < philo->data->meals2consume)
 			ate_enough = 0;
 		sem_post(philo->sem_meals_eaten);
 	}
-	return (philo->data->meals_to_consume && ate_enough);
+	return (philo->data->meals2consume && ate_enough);
 }
 
 /**
@@ -64,10 +64,12 @@ void	*life_monitor(void *philo_ptr)
 			sem_post(philo->data->sem_end);
 			action_msg(philo, DIE);
 			exit(EXIT_FAILURE);
+			// kill(getpid(), SIGTERM);
 		}
 		else if (eat_enough(philo))
 		{
 			sem_post(philo->data->sem_eat_full);
+			pthread_detach(philo->life_monitor);
 			return (NULL);
 		}
 		usleep(1000);

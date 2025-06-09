@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:10:31 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:53:33 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:29:29 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ struct					s_data
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		m_dead;
 	pthread_mutex_t		m_meals_eaten;
-	pthread_mutex_t		m_log;
+	pthread_mutex_t		print;
 	pthread_mutex_t		m_last_meal;
 	size_t				num_philos;
 	size_t				die_time;
 	size_t				eat_time;
 	size_t				sleep_time;
-	size_t				meals_to_consume;
+	size_t				meals2consume;
 	size_t				dinner_start_time;
 	int					dead;
 };
@@ -81,7 +81,6 @@ int			parse(int argc, char **argv, t_data *data);
 long		strict_atoi(const char *str, int *err);
 int			init_philo(t_data *data);
 int			init_mutex(t_data *data);
-void		manage_forks(t_philo *philo, size_t i);
 
 // --------------- exit.c ---------------
 void		cleanup_philo(t_data *data);
@@ -95,17 +94,16 @@ void		waiting(long long waitTime, t_data *data);
 // --------------- philo.c ---------------
 int			run_simulation(t_data *data);
 
-// --------------- philo_routine.c ---------------
+// --------------- routine.c ---------------
 void		*philo_routine(void *philo_ptr);
-void		*solo_philo(t_philo *philo);
 void		eat(t_philo *philo);
 void		rest(t_philo *philo);
 void		think(t_philo *philo);
 
 // --------------- end.c ---------------
 void		synch_start(long long start_time);
-int			end_sim(t_data *data);
-void		set_end_sim(t_data *data);
+int			is_sim_end(t_data *data);
+void		set_sim_end(t_data *data);
 void		action_msg(t_philo *philo, int code);
 
 // --------------- life.c ---------------

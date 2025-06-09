@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:11:06 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:51:07 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:35:42 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int	main(int argc, char *argv[])
 
 	if (parse(argc, argv, &data))
 		return (err_handler(ARG_ERR));
-	data.dinner_start_time = get_time() + (data.num_philos * 42);
-	pthread_mutex_lock(&data.m_log);
-	printf("\n-> Start Simulation:%s %zu%s\n\n", FLASH, (size_t)0, NC);
-	pthread_mutex_unlock(&data.m_log);
+	data.dinner_start_time = get_time();
+	pthread_mutex_lock(&data.print);
+	printf("\n-> Philosophers Dinner Begins\n");
+	pthread_mutex_unlock(&data.print);
 	if (run_simulation(&data))
 		return (err_handler(SIM_ERR));
 	clean_up(&data);

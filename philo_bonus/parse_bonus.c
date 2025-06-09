@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:45:51 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/04 12:29:29 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/09 12:31:52 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int	init_semaphore(t_data *data)
 			data->num_philos);
 	if (data->sem_forks == SEM_FAILED)
 		return (INIT_ERR);
-	data->sem_log = sem_open("/log", O_CREAT, S_IRUSR | S_IWUSR, 1);
-	if (data->sem_log == SEM_FAILED)
+	data->sem_print = sem_open("/log", O_CREAT, S_IRUSR | S_IWUSR, 1);
+	if (data->sem_print == SEM_FAILED)
 		return (INIT_ERR);
 	data->sem_eat_full = sem_open("/eat_full", O_CREAT, S_IRUSR | S_IWUSR,
 			data->num_philos);
@@ -74,14 +74,17 @@ int	parse(int argc, char **argv, t_data *data)
 	data->eat_time = strict_atoi(argv[3], &error);
 	data->sleep_time = strict_atoi(argv[4], &error);
 	data->end = 0;
-	data->meals_to_consume = 0;
+	data->meals2consume = 0;
 	if (argc == 6)
 	{
-		data->meals_to_consume = strict_atoi(argv[5], &error);
-		if (data->meals_to_consume == 0)
+		data->meals2consume = strict_atoi(argv[5], &error);
+		if (data->meals2consume == 0)
 			error = 1;
 	}
-	if (error)
+	else
+		data->meals2consume = 0;
+	if (error || data->num_philos <= 0 || data->die_time <= 0 
+		|| data->eat_time <= 0 || data->sleep_time <= 0)
 		return (ARG_ERR);
 	return (init_semaphore(data));
 }

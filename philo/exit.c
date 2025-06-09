@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:12:01 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:48:37 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:29:34 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	clean_up(t_data *data)
 	}
 	free(data->forks);
 	pthread_mutex_destroy(&data->m_dead);
-	pthread_mutex_destroy(&data->m_log);
+	pthread_mutex_destroy(&data->print);
 	pthread_mutex_destroy(&data->m_last_meal);
 	pthread_mutex_destroy(&data->m_meals_eaten);
 }

@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:16:17 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:16:45 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/11 11:27:10 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_itoa(size_t id)
 	if (!result)
 		return (NULL);
 	result[nb_digit] = '\0';
-	while (id)
+	while (id != 0)
 	{
 		result[--nb_digit] = (id % 10) + '0';
 		id /= 10;

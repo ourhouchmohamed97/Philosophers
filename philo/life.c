@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:11:31 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:50:11 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:42:24 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	has_philosopher_died(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->m_last_meal);
 	if (t_since_last_meal >= philo->data->die_time)
 	{
-		set_end_sim(philo->data);
-		usleep(1000);
+		set_sim_end(philo->data);
+		// usleep(1000);
 		action_msg(philo, DIE);
 		return (1);
 	}
@@ -48,17 +48,17 @@ int	sim_over(t_data *data)
 	{
 		if (has_philosopher_died(&data->philos[i]))
 			return (1);
-		if (data->meals_to_consume)
+		if (data->meals2consume)
 		{
 			pthread_mutex_lock(&data->m_meals_eaten);
-			if (data->philos[i].meals_eaten < data->meals_to_consume)
+			if (data->philos[i].meals_eaten < data->meals2consume)
 				ate_enough = 0;
 			pthread_mutex_unlock(&data->m_meals_eaten);
 		}
 		i++;
 	}
-	if (data->meals_to_consume && ate_enough)
-		return (set_end_sim(data), 1);
+	if (data->meals2consume && ate_enough)
+		return (set_sim_end(data), 1);
 	else
 		return (0);
 }
@@ -74,7 +74,7 @@ void	*life_monitor(void *data_ptr)
 
 	data = (t_data *)data_ptr;
 	synch_start(data->dinner_start_time);
-	while (!end_sim(data))
+	while (!is_sim_end(data))
 	{
 		if (sim_over(data))
 			break ;

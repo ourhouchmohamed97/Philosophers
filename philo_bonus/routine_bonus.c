@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:08:57 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/06 11:32:37 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/09 12:11:13 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,42 +47,80 @@ void	rest(t_philo *philo)
 // * 	=> 0 if: die_time - (time_since_last_meal + eat_time) <= 0
 // * 	=> 200 if > 600 ms to think
 // */
+// void	think(t_philo *philo)
+// {
+// 	long long	time_to_think;
+// 	long long	temp;
+
+// 	sem_wait(philo->sem_last_meal);
+// 	time_to_think = (philo->data->die_time);
+// 	temp = ((get_time() - philo->last_meal) + philo->data->eat_time);
+// 	sem_post(philo->sem_last_meal);
+// 	if (temp >= time_to_think)
+// 		time_to_think = 0;
+// 	else
+// 	{
+// 		time_to_think -= temp;
+// 		time_to_think /= 2;
+// 		if (time_to_think > 500)
+// 			time_to_think = 150;
+// 	}
+// 	action_msg(philo, THINK);
+// 	waiting(time_to_think);
+// 	return ;
+// }
+
+// void think(t_philo *philo)
+// {
+//     long long	available_time;
+
+//     // Calculate how much time we have left
+//     available_time = philo->data->die_time - philo->data->eat_time - philo->data->sleep_time;
+//     if (available_time <= 0)
+//         return; // No thinking time - too risky
+//     action_msg(philo, THINK);
+//     waiting(available_time / 4); // Think for 1/4 of buffer time
+// }
+
 void	think(t_philo *philo)
 {
-	long long	time_to_think;
-	long long	temp;
+	long long	available_time;
+	long long	time_since_meal;
 
 	sem_wait(philo->sem_last_meal);
-	time_to_think = (philo->data->die_time);
-	temp = ((get_time() - philo->last_meal) + philo->data->eat_time);
+	time_since_meal = get_time() - philo->last_meal;
 	sem_post(philo->sem_last_meal);
-	if (temp >= time_to_think)
-		time_to_think = 0;
-	else
-	{
-		time_to_think -= temp;
-		time_to_think /= 2;
-		if (time_to_think > 500)
-			time_to_think = 150;
-	}
+	
+	// Calculate available thinking time to prevent death
+	available_time = philo->data->die_time - time_since_meal 
+		- philo->data->eat_time;
+	
 	action_msg(philo, THINK);
-	waiting(time_to_think);
-	return ;
+	
+	// Think for a safe amount of time
+	if (available_time > 0)
+	{
+		if (available_time > 200)
+			waiting(available_time / 4);
+		else if (available_time > 50)
+			waiting(10);
+		// If very little time, don't wait at all
+	}
 }
 
-int	solo_philo(t_philo *philo)
-{
-	sem_wait(philo->data->sem_eat_full);
-	sem_wait(philo->data->sem_end);
-	synch_start(philo->data->dinner_start_time);
-	sem_wait(philo->data->sem_forks);
-	action_msg(philo, TAKE_FORK);
-	sem_post(philo->data->sem_forks);
-	waiting(philo->data->die_time);
-	sem_post(philo->data->sem_end);
-	action_msg(philo, DIE);
-	return (0);
-}
+// int	solo_philo(t_philo *philo)
+// {
+// 	sem_wait(philo->data->sem_eat_full);
+// 	sem_wait(philo->data->sem_end);
+// 	synch_start(philo->data->dinner_start_time);
+// 	sem_wait(philo->data->sem_forks);
+// 	action_msg(philo, TAKE_FORK);
+// 	sem_post(philo->data->sem_forks);
+// 	waiting(philo->data->die_time);
+// 	sem_post(philo->data->sem_end);
+// 	action_msg(philo, DIE);
+// 	return (0);
+// }
 
 /**
  * the daily philo_routine of each philosopher
@@ -95,12 +133,24 @@ int	solo_philo(t_philo *philo)
 int	philo_routine(t_philo *philo)
 {
 	if (philo->data->num_philos == 1)
-		return (solo_philo(philo));
+	{
+		// sem_wait(philo->data->sem_eat_full);
+		sem_wait(philo->data->sem_end);
+		synch_start(philo->data->dinner_start_time);
+		sem_wait(philo->data->sem_forks);
+		action_msg(philo, TAKE_FORK);
+		sem_post(philo->data->sem_forks);
+		waiting(philo->data->die_time);
+		sem_post(philo->data->sem_end);
+		action_msg(philo, DIE);
+		return (0);
+	}
 	if (pthread_create(&philo->life_monitor, NULL, &life_monitor, philo))
 		return (INIT_ERR);
 	synch_start(philo->data->dinner_start_time);
+	think(philo);
 	if (philo->id % 2)
-		waiting(philo->data->eat_time);
+		waiting(philo->data->eat_time / 2);
 	while (1)
 	{
 		eat(philo);

@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:12:26 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:51:02 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/09 12:30:46 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ long	strict_atoi(const char *str, int *err)
 
 int	init_mutex(t_data *data)
 {
-	if (pthread_mutex_init(&data->m_log, NULL))
+	if (pthread_mutex_init(&data->print, NULL))
 		return (1);
 	if (pthread_mutex_init(&data->m_dead, NULL))
 		return (1);
@@ -51,21 +51,21 @@ int	init_mutex(t_data *data)
 	return (0);
 }
 
-void	manage_forks(t_philo *philo, size_t i)
-{
-	if (philo->id % 2)
-	{
-		philo->left_fork = &philo->data->forks[i];
-		philo->right_fork = &philo->data->forks[(i + 1)
-			% philo->data->num_philos];
-	}
-	else
-	{
-		philo->right_fork = &philo->data->forks[(i + 1)
-			% philo->data->num_philos];
-		philo->left_fork = &philo->data->forks[i];
-	}
-}
+// void	manage_forks(t_philo *philo, size_t i)
+// {
+// 	if (philo->id % 2)
+// 	{
+// 		philo->left_fork = &philo->data->forks[i];
+// 		philo->right_fork = &philo->data->forks[(i + 1)
+// 			% philo->data->num_philos];
+// 	}
+// 	else
+// 	{
+// 		philo->right_fork = &philo->data->forks[(i + 1)
+// 			% philo->data->num_philos];
+// 		philo->left_fork = &philo->data->forks[i];
+// 	}
+// }
 
 /**
  * malloc the data of philos and the data of mutex forks
@@ -90,7 +90,9 @@ int	init_philo(t_data *data)
 		data->philos[i].id = i + 1;
 		data->philos[i].data = data;
 		data->philos[i].meals_eaten = 0;
-		manage_forks(&data->philos[i], i);
+		data->philos[i].left_fork = &data->philos[i].data->forks[i];
+		data->philos[i].right_fork = &data->philos[i].data->forks[(i + 1)
+			% data->philos[i].data->num_philos];
 		i++;
 	}
 	return (0);
@@ -110,14 +112,15 @@ int	parse(int argc, char **argv, t_data *data)
 	data->dead = 0;
 	if (argc == 6)
 	{
-		data->meals_to_consume = strict_atoi(argv[5], &err);
-		if (data->meals_to_consume == 0)
+		data->meals2consume = strict_atoi(argv[5], &err);
+		if (data->meals2consume == 0)
 			err = 1;
 	}
 	else
-		data->meals_to_consume = 0;
-	if (err)
-		return (1);
+		data->meals2consume = 0;
+	if (err || data->num_philos <= 0 || data->die_time <= 0 
+		|| data->eat_time <= 0 || data->sleep_time <= 0)
+		return (ARG_ERR);
 	err = init_philo(data);
 	if (init_mutex(data))
 		return (cleanup_philo(data), 1);

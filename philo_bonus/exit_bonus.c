@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:06:04 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/04 12:04:49 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/09 13:48:19 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,27 @@ int	waiting_philo(int i, t_philo **philos)
 
 void	clean_up(t_data *data, t_philo **philos)
 {
+	size_t	i;
+
+	if (*philos)
+	{
+		i = 0;
+		while (i < data->num_philos)
+		{
+			if (((*philos) + i)->sem_meals_eaten)
+				sem_close(((*philos) + i)->sem_meals_eaten);
+			if (((*philos) + i)->sem_last_meal)
+				sem_close(((*philos) + i)->sem_last_meal);
+			i++;
+		}
+		free(*philos);
+	}
 	sem_close(data->sem_forks);
-	sem_close(data->sem_log);
+	sem_close(data->sem_print);
 	sem_close(data->sem_eat_full);
 	sem_close(data->sem_end);
 	sem_close(data->sem_set_end);
 	unlink_my_sem();
-	free(*philos);
 }
 
 int	err_handler(int type)

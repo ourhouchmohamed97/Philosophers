@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:13:02 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/01 10:52:08 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:37:51 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	waiting(long long waitTime, t_data *data)
 	long long	time;
 
 	time = get_time() + waitTime;
-	while (!end_sim(data) && get_time() < time)
+	while (!is_sim_end(data) && get_time() < time)
 		usleep(500);
 }
 
