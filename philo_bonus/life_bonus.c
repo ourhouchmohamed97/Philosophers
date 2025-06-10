@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:14:16 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/09 15:21:55 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:48:04 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	has_philosopher_died(t_philo *philo)
 	sem_wait(philo->sem_last_meal);
 	t_since_last_meal = get_time() - philo->last_meal;
 	sem_post(philo->sem_last_meal);
-	return (t_since_last_meal >= philo->data->die_time);
+	return (t_since_last_meal > philo->data->die_time);
 }
 
 /**
@@ -62,15 +62,17 @@ void	*life_monitor(void *philo_ptr)
 		if (has_philosopher_died(philo))
 		{
 			sem_post(philo->data->sem_end);
-			action_msg(philo, DIE);
+			sem_wait(philo->data->sem_print);
+			printf("%s%lld %zu died%s\n", RED, get_time()
+			- philo->data->dinner_start_time, philo->id, NC);
+			// action_msg(philo, DIE);
 			exit(EXIT_FAILURE);
-			// kill(getpid(), SIGTERM);
 		}
 		else if (eat_enough(philo))
 		{
 			sem_post(philo->data->sem_eat_full);
 			pthread_detach(philo->life_monitor);
-			return (NULL);
+			exit(EXIT_SUCCESS);
 		}
 		usleep(1000);
 	}

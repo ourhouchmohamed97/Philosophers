@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:12:19 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/03 13:53:11 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:18:58 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	synch_start(long long start_time)
 		usleep(100);
 }
 
-void	unlink_my_sem(void)
-{
-	sem_unlink("/set_end");
-	sem_unlink("/forks");
-	sem_unlink("/log");
-	sem_unlink("/eat_full");
-	sem_unlink("/end");
-}
+// void	unlink_my_sem(void)
+// {
+// 	sem_unlink("/set_end");
+// 	sem_unlink("/forks");
+// 	sem_unlink("/log");
+// 	sem_unlink("/eat_full");
+// 	sem_unlink("/end");
+// }

@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:45:51 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/09 12:31:52 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:19:59 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ long	strict_atoi(const char *str, int *err)
 
 int	init_semaphore(t_data *data)
 {
-	unlink_my_sem();
+	sem_unlink("/set_end");
+	sem_unlink("/forks");
+	sem_unlink("/log");
+	sem_unlink("/eat_full");
+	sem_unlink("/end");
 	data->sem_forks = sem_open("/forks", O_CREAT, S_IRUSR | S_IWUSR,
 			data->num_philos);
 	if (data->sem_forks == SEM_FAILED)

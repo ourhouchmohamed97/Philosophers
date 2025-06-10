@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:05:36 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/09 15:21:49 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:03:53 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	main(int argc, char *argv[])
 {
 	t_data	data;
 	t_philo	*philos;
-
 	if (parse(argc, argv, &data))
 		return (err_handler(ARG_ERR));
 	data.dinner_start_time = get_time() + (data.num_philos * 42);

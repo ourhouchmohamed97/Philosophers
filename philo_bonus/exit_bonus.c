@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:06:04 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/09 13:48:19 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:18:40 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ void	clean_up(t_data *data, t_philo **philos)
 	sem_close(data->sem_eat_full);
 	sem_close(data->sem_end);
 	sem_close(data->sem_set_end);
-	unlink_my_sem();
+	sem_unlink("/set_end");
+	sem_unlink("/forks");
+	sem_unlink("/log");
+	sem_unlink("/eat_full");
+	sem_unlink("/end");
 }
 
 int	err_handler(int type)
