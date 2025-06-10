@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:11:06 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/05 15:35:42 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:05:17 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	run_simulation(t_data *data)
 int	main(int argc, char *argv[])
 {
 	t_data	data;
-
 	if (parse(argc, argv, &data))
 		return (err_handler(ARG_ERR));
 	data.dinner_start_time = get_time();
