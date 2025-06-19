@@ -6,43 +6,40 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:05:36 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/10 13:03:53 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:48:30 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-/**
- * launching and creating child process for each philo
- * use fork() for duplicate process
- * use the philo_routine function
- * (error) ? 1 : 0
- */
-int	run_simulation(t_philo **philos, t_data *data)
+int	run_simulation(t_philo *philos, t_data *data)
 {
 	size_t	i;
 	int		status;
-	pid_t	pid;
 
 	i = 0;
-	// Create philosopher processes
 	while (i < data->num_philos)
 	{
-		((*philos) + i)->pid_philo = fork();
-		if (((*philos) + i)->pid_philo == -1)
-			return (waiting_philo(i, philos)); // handle failed forks
-		else if (((*philos) + i)->pid_philo == 0)
-			return (philo_routine((*philos) + i)); // child process runs its routine
+		philos[i].pid = fork();
+		if (philos[i].pid == -1)
+			return (waiting_philo(i, philos));
+		else if (philos[i].pid == 0)
+			return (philo_routine(&philos[i]));
 		i++;
 	}
-	// Parent process waits for one philosopher to die (exit(1) → status = 256)
-	pid = waitpid(-1, &status, 0);
+	waitpid(-1, &status, 0);
+	i = 0;
 	if (status == 256)
-		kill_all_philo(data, philos);
+	{
+		while(i < data->num_philos)
+		{
+			sem_post( data->sem_eat_full);
+			i++;
+		}
+		kill_all_philo(data, &philos);
+	}
 	return (0);
 }
-
-// 0000 0001 0000 0000
 
 int	init_philo(t_philo **philos, t_data *data)
 {
@@ -54,7 +51,7 @@ int	init_philo(t_philo **philos, t_data *data)
 		return (INIT_ERR);
 	while (i < data->num_philos)
 	{
-		if (init_process_philo((*philos) + i, i, data))
+		if (init_process_philo((*philos + i), i, data))
 			return (INIT_ERR);
 		i++;
 	}
@@ -76,19 +73,17 @@ int	init_process_philo(t_philo *philo, size_t i, t_data *data)
 		return (free(sem_name_1), free(sem_name_2), INIT_ERR);
 	sem_unlink(sem_name_1);
 	sem_unlink(sem_name_2);
-	philo->sem_meals_eaten = sem_open(sem_name_1, O_CREAT, S_IRUSR 
-			| S_IWUSR, 1);
+	philo->sem_meals_eaten = sem_open(sem_name_1, O_CREAT, 0600, 1);
 	if (philo->sem_meals_eaten == SEM_FAILED)
 		return (free(sem_name_1), free(sem_name_2), INIT_ERR);
-	philo->sem_last_meal = sem_open(sem_name_2, O_CREAT, S_IRUSR | S_IWUSR, 1);
+	philo->sem_last_meal = sem_open(sem_name_2, O_CREAT, 0600, 1);
 	if (philo->sem_last_meal == SEM_FAILED)
 		return (free(sem_name_1), free(sem_name_2), INIT_ERR);
-	sem_unlink(sem_name_1);
-	sem_unlink(sem_name_2);
 	free(sem_name_1);
 	free(sem_name_2);
 	return (0);
 }
+
 
 int	main(int argc, char *argv[])
 {
@@ -96,15 +91,11 @@ int	main(int argc, char *argv[])
 	t_philo	*philos;
 	if (parse(argc, argv, &data))
 		return (err_handler(ARG_ERR));
-	data.dinner_start_time = get_time() + (data.num_philos * 42);
+	data.dinner_start_time = get_time() + (data.num_philos * 20);
 	if (init_philo(&philos, &data))
 		return (EXIT_FAILURE);
-	sem_wait(data.sem_print);
-	printf("\n-> Philosophers Dinner Begins\n");
-	sem_post(data.sem_print);
-	if (run_simulation(&philos, &data))
-		return (err_handler(SIM_ERR));
-	stop_simulation(&data, &philos);
+	run_simulation(philos, &data);
+	setup_end_detector(&data, &philos);
 	clean_up(&data, &philos);
 	return (0);
 }

@@ -6,17 +6,17 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:06:04 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/10 12:18:40 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:53:43 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	waiting_philo(int i, t_philo **philos)
+int	waiting_philo(int i, t_philo *philos)
 {
-	while (i > 0)
+	while (i >= 0)
 	{
-		waitpid(((*philos) + i)->pid_philo, NULL, 0);
+		waitpid(philos[i].pid, NULL, 0);
 		i--;
 	}
 	return (INIT_ERR);
@@ -64,9 +64,6 @@ int	err_handler(int type)
 	return (EXIT_FAILURE);
 }
 
-/**
- * kill all the philo by their pid
- */
 void	kill_all_philo(t_data *data, t_philo **philos)
 {
 	size_t	i;
@@ -75,15 +72,13 @@ void	kill_all_philo(t_data *data, t_philo **philos)
 	i = 0;
 	while (i < data->num_philos)
 	{
-		sem_close(((*philos) + i)->sem_meals_eaten);
-		sem_close(((*philos) + i)->sem_last_meal);
-		kill(((*philos) + i)->pid_philo, SIGKILL);
+		kill(((*philos) + i)->pid, SIGKILL);
 		i++;
 	}
 	i = 0;
 	while (i < data->num_philos)
 	{
-		waitpid(((*philos) + i)->pid_philo, &status, 0);
+		waitpid(((*philos) + i)->pid, &status, 0);
 		i++;
 	}
 }

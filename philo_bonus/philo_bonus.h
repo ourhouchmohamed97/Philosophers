@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:53:07 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/10 12:19:42 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:48:43 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_data	t_data;
 typedef struct s_philo
 {
 	size_t				id;
-	pid_t				pid_philo;
+	pid_t				pid;
 	long long			last_meal;
 	size_t				meals_eaten;
 	sem_t				*sem_last_meal;
@@ -64,7 +64,6 @@ enum
 	THINK = 3,
 	DIE = 4,
 	TAKE_FORK = 5,
-	WAIT_FORK = 6
 };
 
 # define GREEN "\033[0;32m"
@@ -77,12 +76,12 @@ enum
 
 # define ARG_ERR 22
 # define SIM_ERR 23
-# define INIT_ERR -1
+# define INIT_ERR 24
 
 // ================ functions bonus ================
 
 // --------------- philo_bonus.c ---------------
-int			run_simulation(t_philo **philos, t_data *data);
+int			run_simulation(t_philo *philos, t_data *data);
 int			init_philo(t_philo **philos, t_data *data);
 
 // --------------- parse_bonus.c ---------------
@@ -99,22 +98,19 @@ long long	get_time(void);
 void		*termination(void *philos_ptr);
 int			is_sim_end(t_data *data);
 void		*check_eat_enough(void *philos_ptr);
-void		stop_simulation(t_data *data, t_philo **philos);
+void		setup_end_detector(t_data *data, t_philo **philos);
 
 // --------------- routine_bonus.c ---------------
 int			philo_routine(t_philo *philo);
 void		eat(t_philo *philo);
 void		rest(t_philo *philo);
-void		think(t_philo *philo);
-int			solo_philo(t_philo *philo);
 
 // --------------- end_bonus.c ---------------
 void		action_msg(t_philo *philo, int code);
 void		synch_start(long long start_time);
-// void		unlink_my_sem(void);
 
 // --------------- exit_bonus.c ---------------
-int			waiting_philo(int i, t_philo **philos);
+int			waiting_philo(int i, t_philo *philos);
 void		clean_up(t_data *data, t_philo **philos);
 int			err_handler(int type);
 void		kill_all_philo(t_data *data, t_philo **philos);

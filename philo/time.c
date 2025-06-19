@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:13:02 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/10 15:01:08 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:25:52 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ void	waiting(long long waitTime, t_data *data)
 		usleep(500);
 }
 
-/**
- * for getting current time in ms
- */
 long long	get_time(void)
 {
 	struct timeval	current_time;

@@ -6,16 +6,12 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:11:31 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/05 16:42:24 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:29:52 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/**hilo_bonus
- * check if a philo is dead
- * => time_since_last_meal > die_time
- */
 int	has_philosopher_died(t_philo *philo)
 {
 	size_t	t_since_last_meal;
@@ -25,18 +21,13 @@ int	has_philosopher_died(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->m_last_meal);
 	if (t_since_last_meal >= philo->data->die_time)
 	{
-		set_sim_end(philo->data);
-		// usleep(1000);
 		action_msg(philo, DIE);
+		set_sim_end(philo->data);
 		return (1);
 	}
 	return (0);
 }
 
-/**
- * check if all philo has eaten enough 1 if all philo is ok
- * else 0
- */
 int	sim_over(t_data *data)
 {
 	size_t	i;
@@ -63,11 +54,6 @@ int	sim_over(t_data *data)
 		return (0);
 }
 
-/**
- * check every 0.1ms if the philo is dead or if every philo has eaten enough
- * use the mutex last meal, and die_time to know
- * use
- */
 void	*life_monitor(void *data_ptr)
 {
 	t_data	*data;
@@ -78,7 +64,7 @@ void	*life_monitor(void *data_ptr)
 	{
 		if (sim_over(data))
 			break ;
-		usleep(1000);
+		usleep(100);
 	}
 	return (NULL);
 }

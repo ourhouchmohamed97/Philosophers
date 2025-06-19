@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:10:31 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/10 15:01:03 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:25:02 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ enum
 	THINK = 3,
 	DIE = 4,
 	TAKE_FORK = 5,
-	WAIT_FORK = 6
 };
 
 # define GREEN "\033[0;32m"

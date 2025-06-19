@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:32:48 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/05/11 10:05:14 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/19 17:40:04 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ void	waiting(long long waitTime)
 		usleep(100);
 }
 
-/**
- * for 0getting current time in ms
- */
 long long	get_time(void)
 {
 	struct timeval	current_time;

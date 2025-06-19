@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:13:28 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/03 13:52:21 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:52:03 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,20 @@ void	action_msg(t_philo *philo, int code)
 	if (is_sim_end(philo->data) && code != DIE)
 		code = -1;
 	if (code == EAT)
-		printf("%s%lld %zu is eating%s\n", GREEN, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
+		printf("%lld %zu is eating\n", get_time()
+			- philo->data->dinner_start_time, philo->id);
 	else if (code == SLEEP)
-		printf("%s%lld %zu is sleeping%s\n", BLUE, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
+		printf("%lld %zu is sleeping\n", get_time()
+			- philo->data->dinner_start_time, philo->id);
 	else if (code == THINK)
-		printf("%s%lld %zu is thinking%s\n", YELLOW, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
+		printf("%lld %zu is thinking\n", get_time()
+			- philo->data->dinner_start_time, philo->id);
 	else if (code == DIE)
-		printf("%s%lld %zu died%s\n", RED, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
+		printf("%lld %zu died\n", get_time()
+			- philo->data->dinner_start_time, philo->id);
 	else if (code == TAKE_FORK)
-		printf("%s%lld %zu has taken a fork%s\n", CYAN, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
-	else if (code == WAIT_FORK)
-		printf("%s%lld %zu is waiting for fork%s\n", YELLOW, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
+		printf("%lld %zu has taken a fork\n", get_time()
+			- philo->data->dinner_start_time, philo->id);
 	pthread_mutex_unlock(&philo->data->print);
 }
 

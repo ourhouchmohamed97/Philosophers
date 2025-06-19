@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:12:19 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/10 12:18:58 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:48:50 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,17 @@ void	action_msg(t_philo *philo, int code)
 {
 	sem_wait(philo->data->sem_print);
 	if (code == EAT)
-		printf("%s%lld %zu is eating%s\n", GREEN, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
+		printf("%lld %zu is eating\n", get_time()
+			- philo->data->dinner_start_time, philo->id);
 	else if (code == SLEEP)
-		printf("%s%lld %zu is sleeping%s\n", BLUE, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
+		printf("%lld %zu is sleeping\n", get_time()
+			- philo->data->dinner_start_time, philo->id);
 	else if (code == THINK)
-		printf("%s%lld %zu is thinking%s\n", YELLOW, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
-	else if (code == DIE)
-		printf("%s%lld %zu died%s\n", RED, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
+		printf("%lld %zu is thinking\n", get_time()
+			- philo->data->dinner_start_time, philo->id);
 	else if (code == TAKE_FORK)
-		printf("%s%lld %zu has taken a fork%s\n", CYAN, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
-	else if (code == WAIT_FORK)
-		printf("%s%lld %zu is waiting for fork%s\n", YELLOW, get_time()
-			- philo->data->dinner_start_time, philo->id, NC);
+		printf("%lld %zu has taken a fork\n", get_time()
+			- philo->data->dinner_start_time, philo->id);
 	sem_post(philo->data->sem_print);
 }
 
@@ -41,12 +35,3 @@ void	synch_start(long long start_time)
 	while (get_time() < start_time)
 		usleep(100);
 }
-
-// void	unlink_my_sem(void)
-// {
-// 	sem_unlink("/set_end");
-// 	sem_unlink("/forks");
-// 	sem_unlink("/log");
-// 	sem_unlink("/eat_full");
-// 	sem_unlink("/end");
-// }

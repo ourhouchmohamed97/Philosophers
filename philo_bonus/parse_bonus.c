@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:45:51 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/10 12:19:59 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/15 13:19:34 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,22 @@ int	init_semaphore(t_data *data)
 	sem_unlink("/log");
 	sem_unlink("/eat_full");
 	sem_unlink("/end");
-	data->sem_forks = sem_open("/forks", O_CREAT, S_IRUSR | S_IWUSR,
+	data->sem_forks = sem_open("/forks", O_CREAT, 0600,
 			data->num_philos);
 	if (data->sem_forks == SEM_FAILED)
 		return (INIT_ERR);
-	data->sem_print = sem_open("/log", O_CREAT, S_IRUSR | S_IWUSR, 1);
+	data->sem_print = sem_open("/log", O_CREAT, 0600, 1);
 	if (data->sem_print == SEM_FAILED)
 		return (INIT_ERR);
-	data->sem_eat_full = sem_open("/eat_full", O_CREAT, S_IRUSR | S_IWUSR,
+	data->sem_eat_full = sem_open("/eat_full", O_CREAT, 0600,
 			data->num_philos);
 	if (data->sem_eat_full == SEM_FAILED)
 		return (INIT_ERR);
-	data->sem_end = sem_open("/end", O_CREAT, S_IRUSR | S_IWUSR,
+	data->sem_end = sem_open("/end", O_CREAT, 0600,
 			data->num_philos);
 	if (data->sem_end == SEM_FAILED)
 		return (INIT_ERR);
-	data->sem_set_end = sem_open("/set_end", O_CREAT, S_IRUSR | S_IWUSR, 1);
+	data->sem_set_end = sem_open("/set_end", O_CREAT, 0600, 1);
 	if (data->sem_set_end == SEM_FAILED)
 		return (INIT_ERR);
 	return (0);
