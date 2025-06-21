@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:12:01 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/05 15:29:34 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:26:09 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,4 @@ int	err_handler(int type)
 		printf("\033[1;31mError with simulation !\033[0m\n\n");
 	return (EXIT_FAILURE);
 }
+

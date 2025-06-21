@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:11:31 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/19 16:29:52 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:26:13 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	sim_over(t_data *data)
 	else
 		return (0);
 }
+
 
 void	*life_monitor(void *data_ptr)
 {

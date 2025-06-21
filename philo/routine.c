@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:13:59 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/19 16:30:51 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:26:37 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,4 @@ void	*philo_routine(void *philo_ptr)
 	}
 	return (NULL);
 }
+

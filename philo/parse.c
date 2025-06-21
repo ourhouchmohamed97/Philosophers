@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:12:26 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/09 12:30:46 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:26:22 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,28 +51,6 @@ int	init_mutex(t_data *data)
 	return (0);
 }
 
-// void	manage_forks(t_philo *philo, size_t i)
-// {
-// 	if (philo->id % 2)
-// 	{
-// 		philo->left_fork = &philo->data->forks[i];
-// 		philo->right_fork = &philo->data->forks[(i + 1)
-// 			% philo->data->num_philos];
-// 	}
-// 	else
-// 	{
-// 		philo->right_fork = &philo->data->forks[(i + 1)
-// 			% philo->data->num_philos];
-// 		philo->left_fork = &philo->data->forks[i];
-// 	}
-// }
-
-/**
- * malloc the data of philos and the data of mutex forks
- * assign the mutex (fork) of the data left and right to each philosopher
- * init the log mutex pointeur to each philo
- * assign all other relevant information
- */
 int	init_philo(t_data *data)
 {
 	size_t	i;
