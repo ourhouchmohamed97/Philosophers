@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:16:17 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/19 17:40:19 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:28:27 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,3 +81,4 @@ char	*get_name_sem(size_t id, char *name)
 	free(string_n);
 	return (result);
 }
+

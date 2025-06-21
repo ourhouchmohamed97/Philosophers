@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:32:48 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/19 17:40:04 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:28:24 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,3 +29,4 @@ long long	get_time(void)
 	return ((long long)(current_time.tv_sec * 1000LL) + (current_time.tv_usec
 			/ 1000));
 }
+

@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:05:36 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/21 08:56:43 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:28:04 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,3 +99,4 @@ int	main(int argc, char *argv[])
 	clean_up(&data, &philos);
 	return (0);
 }
+

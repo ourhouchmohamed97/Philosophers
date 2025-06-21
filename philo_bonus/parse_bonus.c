@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:45:51 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/15 13:19:34 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:28:01 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,3 +92,4 @@ int	parse(int argc, char **argv, t_data *data)
 		return (ARG_ERR);
 	return (init_semaphore(data));
 }
+

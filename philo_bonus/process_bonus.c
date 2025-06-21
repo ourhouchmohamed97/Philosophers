@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:13:00 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/19 17:40:44 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:28:12 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,3 +78,4 @@ void	setup_end_detector(t_data *data, t_philo **philos)
 	if (pthread_join(thread_death, NULL) != 0)
 		kill_all_philo(data, philos);
 }
+
