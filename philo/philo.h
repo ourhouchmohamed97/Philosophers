@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:10:31 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/19 16:25:02 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:07:46 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int			run_simulation(t_data *data);
 void		*philo_routine(void *philo_ptr);
 void		eat(t_philo *philo);
 void		rest(t_philo *philo);
-void		think(t_philo *philo);
 
 // --------------- end.c ---------------
 void		synch_start(long long start_time);

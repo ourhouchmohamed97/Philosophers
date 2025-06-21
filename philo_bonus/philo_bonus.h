@@ -6,25 +6,25 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:53:07 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/21 09:00:37 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:11:12 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
-# include <fcntl.h>     // FLAGS
-# include <pthread.h>   // thread
-# include <semaphore.h> // semaphore
-# include <signal.h>    // kill
-# include <stdio.h>     // printf
-# include <stdlib.h>    // malloc, free, EXIT_SUCCESS
-# include <string.h>    // semaphore
-# include <sys/stat.h>  // S_IRUSR | S_IWUSR
-# include <sys/time.h>  // usleep
-# include <sys/types.h> // O_CREAT
-# include <sys/wait.h>  // waitpid
-# include <unistd.h>    // fork
+# include <fcntl.h>
+# include <pthread.h>
+# include <semaphore.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/time.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 // ================ Struct ================
 typedef struct s_data	t_data;
