@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:05:36 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/19 19:48:30 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 08:56:43 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	run_simulation(t_philo *philos, t_data *data)
 	i = 0;
 	if (status == 256)
 	{
-		while(i < data->num_philos)
+		while (i < data->num_philos)
 		{
-			sem_post( data->sem_eat_full);
+			sem_post(data->sem_eat_full);
 			i++;
 		}
 		kill_all_philo(data, &philos);
@@ -84,11 +84,11 @@ int	init_process_philo(t_philo *philo, size_t i, t_data *data)
 	return (0);
 }
 
-
 int	main(int argc, char *argv[])
 {
 	t_data	data;
 	t_philo	*philos;
+
 	if (parse(argc, argv, &data))
 		return (err_handler(ARG_ERR));
 	data.dinner_start_time = get_time() + (data.num_philos * 20);

@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:53:07 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/19 19:48:43 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 09:00:37 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void		setup_end_detector(t_data *data, t_philo **philos);
 int			philo_routine(t_philo *philo);
 void		eat(t_philo *philo);
 void		rest(t_philo *philo);
+int			solo_philo(t_philo *philo);
 
 // --------------- end_bonus.c ---------------
 void		action_msg(t_philo *philo, int code);

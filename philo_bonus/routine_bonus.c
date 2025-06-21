@@ -6,7 +6,7 @@
 /*   By: mourhouc <mourhouc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:08:57 by mourhouc          #+#    #+#             */
-/*   Updated: 2025/06/19 21:50:49 by mourhouc         ###   ########.fr       */
+/*   Updated: 2025/06/21 09:01:32 by mourhouc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,24 @@ void	rest(t_philo *philo)
 	waiting(philo->data->sleep_time);
 }
 
+int	solo_philo(t_philo *philo)
+{
+	sem_wait(philo->data->sem_forks);
+	action_msg(philo, TAKE_FORK);
+	sem_post(philo->data->sem_forks);
+	waiting(philo->data->die_time);
+	printf("%lld %zu died\n",
+		get_time() - philo->data->dinner_start_time, philo->id);
+	exit(EXIT_FAILURE);
+}
+
 int	philo_routine(t_philo *philo)
 {
 	synch_start(philo->data->dinner_start_time);
 	if (philo->data->num_philos == 1)
-	{
-		sem_wait(philo->data->sem_forks);
-		action_msg(philo, TAKE_FORK);
-		sem_post(philo->data->sem_forks);
-		waiting(philo->data->die_time);
-		printf("%lld %zu died\n",
-			get_time() - philo->data->dinner_start_time, philo->id);
-		exit(EXIT_FAILURE);
-	}
+		return (solo_philo(philo));
 	if (pthread_create(&philo->life_monitor, NULL, &life_monitor, philo))
 		return (INIT_ERR);
-	pthread_detach(philo->life_monitor);
 	action_msg(philo, THINK);
 	if (philo->id % 2)
 		waiting(philo->data->eat_time / 2);
